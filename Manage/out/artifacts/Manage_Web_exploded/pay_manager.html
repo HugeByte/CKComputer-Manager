@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--[if lt IE]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+
+    <title>非正式社员管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link href="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css"
+          rel="stylesheet">
+    <link href="css/plugins/bootstrap-select/bootstrap-select.min.css"
+          rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+    <!--toastr.js-->
+    <script src="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.js"></script>
+    <!--SweetAlert2-->
+    <script src="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.min.js"></script>
+    <!--Bootstrap-Switch-->
+    <script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
+    <!--Bootstrap-Select-->
+    <script src="js/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="js/plugins/bootstrap-select/defaults-zh_CN.min.js"></script>
+
+
+    <!-- Bootstrap table -->
+    <script src="js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <style>
+        /* Additional style to fix warning dialog position */
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>缴费信息</h5>
+                </div>
+                <div class="ibox-content">
+                    <h4 class="m-t">管理所有正式社员与非正式社员</h4>
+                    <div class="row-fluid">
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm" id="btn-delAll">
+                                    <i class="fa fa-remove">批量删除</i>
+                                </button>
+                                <button type="button" class="btn btn-info btn-sm" id="btn-re">
+                                    <i class="fa fa-refresh">刷新</i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <form id="queryForm" action="#" method="post">
+                                <div class="col-xs-5">
+                                    <input type="text" id="keyword" name="keyword"
+                                           class="form-control input-sm" placeholder="按姓名搜索">
+                                </div>
+                                    <select class="selectpicker" id="searchselect" data-style="btn-info" title="按条件筛选" multiple>
+                                        <option id="pay" value="0">未缴费</option>
+                                        <option id="pic" value="1">未交照片</option>
+                                    </select>
+                                <button type="button" class="btn btn-info btn-sm" id="btn-search">
+                                    <i class="fa fa-search">搜索</i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#table').bootstrapTable({
+            url: "/all",
+            responseHandler: function (res) {
+                //在ajax获取到数据，渲染表格之前，修改数据源
+                var nres = [];
+                nres.push({
+                    total: res.extend.pageInfo.total,
+                    rows: res.extend.pageInfo.list,
+                    pageSize: res.extend.pageInfo.pageSize,
+                });
+                return nres[0];
+            },
+            type: "get",
+            locale: 'zh-CN',
+            toolbar: '#toolbar',
+            striped: true,
+            pagination: true,
+            cache: true,
+            sidePagination: "server",
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 'All'],
+            search: false,
+            clickToSelect: true,
+            cardView: false,
+            queryParamsType: '',
+            columns: [
+                {
+                    field: 'memid',
+                    title: 'ID'
+                }, {
+                    field: 'name',
+                    title: '姓名'
+                }, {
+                    field: 'major',
+                    title: '专业班级'
+                }, {
+                    field: 'qq',
+                    title: 'QQ'
+                }, {
+                    field: 'phone',
+                    title: '手机号'
+                }, {
+                    field: 'pay',
+                    title: '缴费情况',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        if (value == 1) {
+                            return '<input id="create-switch" type="checkbox"  name="checkbox_pay" checked>';
+                        }
+                        if (value == 0) {
+                            return '<input id="create-switch" type="checkbox"  name="checkbox_pay" check>';
+                        }
+                    }
+                }, {
+                    field: 'pic',
+                    title: '照片情况',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        if (value == 1) {
+                            return '<input id="create-switch" type="checkbox" data-animated="false" name="checkbox_pic" checked>';
+                        }
+                        if (value == 0) {
+                            return '<input id="create-switch" type="checkbox" data-animated="false" name="checkbox_pic" check>';
+                        }
+                    }
+                },
+                {
+                    checkbox: true,
+                }],
+
+            //初始化switch
+            onLoadSuccess: function () {
+                $('[name="checkbox_pay"]').bootstrapSwitch({
+                    onText: "已缴费",
+                    offText: "未缴费",
+                    onColor: "info",
+                    offColor: "danger",
+                    size: "small",
+                    animate: false,
+                    onSwitchChange: function (event, state) {
+                        var empName = $(this).parents("tr").find("td:eq(1)").text();
+                        var id = $(this).parents("tr").find("td:eq(0)").text();
+                        var pay;
+                        if (state == true) {
+                            pay = 1;
+                        } else {
+                            pay = 0;
+                        }
+                        pay_alter(pay, empName, id);
+                    }
+                }),
+                    $('[name="checkbox_pic"]').bootstrapSwitch({
+                        onText: "已交",
+                        offText: "未交",
+                        onColor: "info",
+                        offColor: "danger",
+                        size: "small",
+                        animate: false,
+                        onSwitchChange: function (event, state) {
+                            var empName = $(this).parents("tr").find("td:eq(1)").text();
+                            var id = $(this).parents("tr").find("td:eq(0)").text();
+                            var pic;
+                            if (state == true) {
+                                pic = 1;
+                            } else {
+                                pic = 0;
+                            }
+                            pic_alter(pic, empName, id)
+                        }
+                    })
+            }
+        });
+    });
+
+    //更改缴费信息
+    function pay_alter(pay, empName, id) {
+        var state;
+        if (pay == 1) {
+            state = "已缴费";
+        }
+        if (pay == 0) {
+            state = "未缴费";
+        }
+        swal({
+            title: "是否更改用户" + "<p class=\"text-danger\">" + empName + "</p>"
+                + "的缴费信息为" + "<p class=\"text-danger\">" + state + "</p>",
+            text: "请再次确认该社员的缴费信息是否正确",
+            type: "warning",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认更改！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(
+            function (isConfirm) {
+                var result = isConfirm.value;
+                if (result === true) {
+                    $.ajax({
+                        url: "/emp/" + id,
+                        type: "PUT",
+                        data: {"pay": pay},
+                        success: function (result) {
+                            if (result.code == 100) {
+                                swal(
+                                    '操作成功',
+                                    '缴费信息已修改',
+                                    'success'
+                                );
+                                $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                                toastr.success('修改成功');
+                            } else {
+                                toastr.success('处理失败');
+                            }
+                        }
+                    })
+                } else {
+                    $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                }
+            })
+    };
+
+    //更改照片信息
+    function pic_alter(pic, empName, id) {
+        var state;
+        if (pic == 1) {
+            state = "已交照片";
+        }
+        if (pic == 0) {
+            state = "未交照片";
+        }
+        swal({
+            title: "是否更改用户" + "<p class=\"text-danger\">" + empName + "</p>"
+                + "的照片信息为" + "<p class=\"text-danger\">" + state + "</p>",
+            text: "请再次确认该社员的照片信息是否正确",
+            type: "warning",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认更改！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(
+            function (isConfirm) {
+                var result = isConfirm.value;
+                if (result === true) {
+                    $.ajax({
+                        url: "/emp/" + id,
+                        type: "PUT",
+                        data: {"pic": pic},
+                        success: function (result) {
+                            if (result.code == 100) {
+                                swal(
+                                    '操作成功',
+                                    '照片信息已修改',
+                                    'success'
+                                );
+                                $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                                toastr.success('修改成功');
+                            } else {
+                                toastr.success('处理失败');
+                            }
+                        }
+                    })
+                } else {
+                    $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                }
+            })
+    };
+
+    //获取页码
+    $.ajax({
+        url: "emps",
+        type: "get",
+        success: function (result) {
+            LastPage = result.extend.pageInfo.lastPage;
+            pageNum = result.extend.pageInfo.pageNum;
+        }
+    });
+
+    //删除
+    $(document).on("click", ".delete_btn", function () {
+        var empName = $(this).parents("tr").find("td:eq(1)").text();
+        var id = $(this).parents("tr").find("td:eq(0)").text();
+        swal({
+            title: "是否删除用户" + "<p class=\"text-danger\">" + empName + "</p>",
+            text: "该操作不可逆，请仔细核对",
+            type: "warning",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认删除！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(function (isConfirm) {
+            var result = isConfirm.value;
+            if (result === true) {
+                $.ajax({
+                    url: "/emp/" + id,
+                    type: "DELETE",
+                    success: function (result) {
+                        if (result.code == 100) {
+                            swal(
+                                '操作成功',
+                                '社员信息已删除',
+                                'success'
+                            )
+                            toastr.success('删除成功');
+                            $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                        } else {
+                            toastr.success('处理失败');
+                        }
+                    }
+                })
+            }
+        })
+    })
+
+    //批量删除
+    $("#btn-delAll").click(function () {
+        var rows = $("#table").bootstrapTable('getSelections');
+        if (rows.length == 0) {
+            swal(
+                '你还没选择任何用户',
+                '请先选择要删除的用户！！',
+                'warning'
+            )
+            return;
+        }
+        var del_idstr = "";
+        for (var i = 0; i < rows.length; i++) {
+            del_idstr += rows[i]['memid'] + "-";
+        }
+        swal({
+            title: "确定要删除选中的用户吗？",
+            text: "该操作不可逆，请仔细核对",
+            type: "warning",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认删除！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(function (isConfirm) {
+            var result = isConfirm.value;
+            if (result === true) {
+                $.ajax({
+                    url: "/emp/" + del_idstr,
+                    type: "DELETE",
+                    success: function (result) {
+                        if (result.code == 100) {
+                            swal(
+                                '操作成功',
+                                '社员信息已删除',
+                                'success'
+                            )
+                            toastr.success('删除成功');
+                            $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                        } else {
+                            toastr.success('处理失败');
+                        }
+                    }
+                })
+            }
+            ;
+        });
+    })
+
+    //刷新
+    $("#btn-re").click(function () {
+        $("#table").bootstrapTable("refresh", {
+            url: "/all",
+            pageNumber: 1
+        });
+    })
+
+    //搜索
+    $("#btn-search").click(function () {
+        var Paycon=$("#searchselect").find("option[value='0']").is(":selected");
+        var Piccom=$("#searchselect").find("option[value='1']").is(":selected");
+        var pay="";
+        var pic="";
+        if(Paycon==true){
+            pay=0;
+        }
+        if(Piccom==true){
+            pic=0;
+        }
+        $('#table').bootstrapTable('refresh', {
+            url: '/search?' + 'name=' + $('#keyword').val()+'&pay='+pay+'&pic='+pic,
+        })
+    })
+
+</script>
+</body>
+
+</html>
+

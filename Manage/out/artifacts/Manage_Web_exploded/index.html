@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CKC计算机协会-Computer Knowledge Community</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="CKC,计算机协会,武汉设计工程学院,武设,信息工程学院,计算机,招新,计协"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!-- //for-mobile-apps -->
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/style-ckc.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <!-- //js -->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!--SweetAlert2-->
+    <script src="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
+    <link href="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.css" rel="stylesheet">
+    <!-- start-smoth-scrolling -->
+    <link href='css/Montserrat.css' rel='stylesheet' type='text/css'>
+    <link href='css/Montserrat+Alternates.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="banner" id="banner">
+    <div class="container">
+        <div class="header">
+            <div class="banner-left">
+                <a href="index.html"><i class="glyphicon glyphicon-education"
+                                          aria-hidden="true"></i>CKC<span>计算机协会</span></a>
+            </div>
+            <div class="main-in">
+                <section>
+                    <button id="showLeft" class="navig"></button>
+                </section>
+            </div>
+            <div class="clearfix"></div>
+            <!--- Navigation from Right To Left --->
+            <link rel="stylesheet" type="text/css" href="css/component.css"/>
+            <div class="cbp-spmenu-push">
+                <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+                    <h3>导航</h3>
+                    <a href="#banner" class="scroll">主页</a>
+                    <a href="#about" class="scroll">计算机知识/外设</a>
+                    <a href="#news" class="scroll">电竞</a>
+                    <a href="#services" class="scroll">资源</a>
+                    <a href="#contact" class="scroll">联系我们</a>
+                </nav>
+            </div>
+            <script src="js/classie.js"></script>
+            <script>
+                var menuLeft = document.getElementById('cbp-spmenu-s1'),
+                    showLeft = document.getElementById('showLeft'),
+                    body = document.body;
+
+                showLeft.onclick = function () {
+                    classie.toggle(this, 'active');
+                    classie.toggle(menuLeft, 'cbp-spmenu-open');
+                    disableOther('showLeft');
+                };
+
+                function disableOther(button) {
+                    if (button !== 'showLeft') {
+                        classie.toggle(showLeft, 'disabled');
+                    }
+                }
+            </script>
+            <!--- Navigation from Right To Left --->
+            <div class="clearfix"></div>
+        </div>
+        <div class="banner-info">
+            <div id="form-member" class="banner-info-left">
+                <h1>加入我们</h1>
+                <form id="update-member" name="myform">
+                    <div class="form-group">
+                        <input type="text" name="name" id="name_input" placeholder="姓名">
+                        <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="major" id="major_input" placeholder="专业班级">
+                        <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="qq" id="qq_input" placeholder="QQ">
+                        <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="phone" id="phone_input" placeholder="手机号">
+                        <span class="help-block"></span>
+                    </div>
+                    <input type="button" value="提交" id="save_btn" >
+                </form>
+
+            </div>
+            <script>
+                //表单提示
+                function show_validate_msg(ele, status, msg) {
+                    $(ele).parent().removeClass("has-success has-error");
+                    $(ele).next("span").text("");
+                    if ("success" == status) {
+                        $(ele).parent().addClass("has-success");
+                        $(ele).next("span").text(msg);
+                    } else if ("error" == status) {
+                        $(ele).parent().addClass("has-error");
+                        $(ele).next("span").text(msg);
+                    }
+                };
+
+                function reset_form(ele) {
+                    $(ele)[0].reset();
+                    $(ele).find("*").removeClass("has-error has-success");
+                    $(ele).find(".help-block").text("");
+                }
+                //输入框失去焦点的时候执行
+                $("#name_input").blur(function () {
+                    var Name = $("#name_input").val();
+                    var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,6})/;
+                    if (!regName.test(Name)) {
+                        show_validate_msg("#name_input", "error", "姓名格式错误，请重新输入");
+                        $("#save_btn").attr("ajax-va", "error");
+                        return false;
+                    } else {
+                        show_validate_msg("#name_input", "success", "");
+                        $("#save_btn").attr("ajax-va", "success");
+                    }
+                    return true;
+                })
+                $("#major_input").blur(function () {
+                    var major = $("#major_input").val();
+                    var regmajor = /^[\u2E80-\u9FFF]{2}\d{4}$/;
+                    if (!regmajor.test(major)) {
+                        show_validate_msg("#major_input", "error", "格式不正确，正确格式为【专业+班级】，如【软工1502】");
+                        $("#save_btn").attr("ajax-va", "error");
+                        return false;
+                    } else {
+                        show_validate_msg("#major_input", "success", "");
+                        $("#save_btn").attr("ajax-va", "success");
+                    }
+                })
+
+                $("#qq_input").blur(function () {
+                    var qq = $("#qq_input").val();
+                    var regqq = /[1-9][0-9]{4,}/;
+                    if (!regqq.test(qq)) {
+                        show_validate_msg("#qq_input", "error", "QQ号格式不正确，请输入正确的QQ号");
+                        $("#save_btn").attr("ajax-va", "error");
+                        return false;
+                    } else {
+                        show_validate_msg("#qq_input", "success", "");
+                        $("#save_btn").attr("ajax-va", "success");
+                    }
+                })
+
+                $("#phone_input").blur(function () {
+                    var phone = $("#phone_input").val();
+                    var regphone = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
+                    if (!regphone.test(phone)) {
+                        show_validate_msg("#phone_input", "error", "手机号格式不正确，请确认手机号格式是否正确");
+                        $("#save_btn").attr("ajax-va", "error");
+                        return false;
+                    } else {
+                        show_validate_msg("#phone_input", "success", "");
+                        $("#save_btn").attr("ajax-va", "success");
+                    }
+                });
+
+                //保存时验证
+                $("#save_btn").click(function () {
+                    var Name = document.myform.name.value;
+                    var major = document.myform.major.value;
+                    var qq = document.myform.qq.value;
+                    var phone = document.myform.phone.value;
+                    if (Name == "") {
+                        show_validate_msg("#name_input", "error", "请输入姓名");
+                        document.myform.name.focus();
+                        return false;
+                    }
+                    if (major == "") {
+                        show_validate_msg("#major_input", "error", "请输入专业班级");
+                        document.myform.major.focus();
+                        return false;
+                    }
+                    if (qq == "") {
+                        show_validate_msg("#qq_input", "error", "请输入QQ号");
+                        document.myform.major.focus();
+                        return false;
+                    }
+                    if (phone == "") {
+                        show_validate_msg("#phone_input", "error", "请输入手机号");
+                        document.myform.major.focus();
+                        return false;
+                    }
+                    if ($(this).attr("ajax-va") == "error") {
+                        return false;
+                    }
+                    $.ajax({
+                        url: "/state",
+                        type: "get",
+                        success: function (result) {
+                            if (result.extend.recruit[0].state==0){
+                                swal(
+                                    '招新未开始',
+                                    '社团目前还未开始招新，请关注后续动态！',
+                                    'warning'
+                                )
+                                reset_form("#form-member form");
+                                return false;
+                            }else if(result.extend.recruit[0].state==1){
+                                swal({
+                                title: "欢迎您的加入！" + "<a class=\"text-danger\">" + Name + "</a>" +
+                                    "<p>您的个人信息如下：</p>",
+                                html: "<p>专业班级:<a class=\"text-danger\">" + major + "</a></p>" +
+                                    "<p>QQ:<a class=\"text-danger\">" + qq + "</a></p>" +
+                                    "<p>手机号:<a class=\"text-danger\">" + phone + "</a></p>" +
+                                    "<p>请核对信息是否正确</p>",
+                                type: "info",
+                                showCancelButton: "true",
+                                showConfirmButton: "true",
+                                confirmButtonText: "确认无误",
+                                confirmButtonColor: "#ec6c62",
+                                cancelButtonText: "取消"
+                            }).then(function (isConfirm) {
+                                var result = isConfirm.value;
+                                if (result === true) {
+                                    $.ajax({
+                                        url: "/emp",
+                                        type: "POST",
+                                        data: $.param({"pay": 0, "pic": 0}) + '&' + $("#form-member form").serialize(),
+                                        success: function (result) {
+                                            if (result.code == 100) {
+                                                swal(
+                                                    '提交成功！',
+                                                    '再次欢迎您的加入！请前往社团指定招新地点并附带一张2寸照片进行缴费',
+                                                    'success'
+                                                )
+                                                reset_form("#form-member form");
+                                            } else {
+                                                if (underfined != result.extend.errorFields.name) {
+                                                    show_validate_msg("#name_input", "error", result.extend.errorFields.name);
+                                                }
+                                            }
+                                        }
+                                    })
+                                }
+                            })}
+                        }
+                    })
+                });
+            </script>
+            <div class="banner-info-right">
+                <h2>Committed to becoming a fully developed community</h2>
+                <p>社团成立至今十余年，我们一直致力于对协会成员以及学院同学IT文化理念的传播和专业技术能力的培养。
+                    我们相信，你的加入，定会为我们社团增加一份新的活力！</p>
+                <ul>
+                    <li><a href="https://weibo.com/CKCHOME?refer_flag=1001030102"
+                           target="view_window" class="weibo"> </a></li>
+                    <li><a href="https://jq.qq.com/?_wv=1027&k=5KZ85U5" target="view_window" class="qq"> </a></li>
+                    <li><a id="wechat_first" class="wechat"
+                           title="扫一扫关注微信" data-toggle="popover" data-placement="bottom"></a></li>
+                    <li><a href="https://tieba.baidu.com/f?fr=wwwt&kw=CKC%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%8F%E4%BC%9A"
+                           target="view_window" class="tieba"> </a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="banner-bottom">
+    <div class="container">
+        <h3>欢迎！</h3>
+        <h3>Welcome</h3>
+        <p class="fugiat">无论你是想学习更多计算机方面相关的知识，还是想训练自己的动手能力，
+            或者是想寻找志同道合的朋友，这里都是你所寻找的归宿地。</p>
+        <h4>Our Latest Activity</h4>
+        <div class="banner-bottom-grid">
+            <div class="col-md-6 banner-bottom-grid-left">
+                <img src="http://wx3.sinaimg.cn/large/9894debfgy1ft7hnk370nj20go0dpwi2.jpg" alt=" "
+                     class="img-responsive"/>
+            </div>
+            <div class="col-md-6 banner-bottom-grid-right">
+                <h5>每一次活动都会让你有所收获</h5>
+                <p>每周我们都会举办许多丰富多彩的活动，这些活动可以让你学到平时上课所学不到的东西，同时我们主导趣味教学，
+                    能让你在学到知识的同时收获无限乐趣。</p>
+                <div class="banner-b-left">
+                    <div class="banner-b-left1">
+                        <img src="http://wx3.sinaimg.cn/large/9894debfgy1ft7hnjm7rjj20b408c0tq.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="banner-b-left1">
+                        <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7hnkmk47j20b408cta2.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="banner-b-left1">
+                        <img src="http://wx3.sinaimg.cn/large/9894debfgy1ft7hnlobbxj20b408ctaa.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="banner-b-left1">
+                        <img src="http://wx1.sinaimg.cn/large/9894debfgy1ft7hnmzaj1j20b408cgmu.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="banner-b-left">
+                    <div class="banner-b-left1">
+                        <img src="http://wx1.sinaimg.cn/large/9894debfgy1ft7hnnyjb3j20b408cq4i.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="banner-b-left1">
+                        <img src="http://wx4.sinaimg.cn/large/9894debfgy1ft7hnoynpgj20b408c0tm.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="banner-b-left1">
+                        <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7hnpzi0tj20b408cwfw.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="banner-b-left1">
+                        <img src="http://wx3.sinaimg.cn/large/9894debfgy1ft7hnjm7rjj20b408c0tq.jpg" alt=" "
+                             class="img-responsive"/>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="about" id="about">
+    <div class="container">
+        <h3>计算机知识</h3>
+        <h3>Computeracy</h3>
+        <p class="fugiat colr">我们会授予各种计算机软件相关知识，包括Office,PhotoShop,Visual Basic
+            等一系列相关软件的基本操作，让你日常办公得心应手。当然，硬件方面我们也不会懈怠。</p>
+        <div class="about-grid">
+            <div class="col-md-6 about-grid-left">
+                <img src="http://wx4.sinaimg.cn/large/9894debfgy1ft7hnngjhrj20gm09tgqb.jpg" alt=" "
+                     class="img-responsive"/>
+                <h4>软件知识</h4>
+                <p>软件知识可以帮助你更有效率的使用该软件，同时也能让你更简单的通过计算机二级考试。</p>
+            </div>
+            <div class="col-md-6 about-grid-right">
+                <h4>硬件知识</h4>
+                <p>掌握基本硬件知识在购机的时候十分重要，这能帮助你更好找到属于你自己的爱机。 </p>
+                <p>【你对你现在使用的电脑是否满意】问卷调查结果：</p>
+                <div class="progress">
+                    <div class="progress-bar p" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 30%;">
+                        未加入计算机协会
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar p" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 50%;">
+                        未加入计算机协会但听过讲座
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar p" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 75%;">
+                        加入计算机协会
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar p" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 95%;">
+                        加入计算机协会并了解相关知识
+                    </div>
+                </div>
+                <p>注：以上为在校部分学生调查结果，绿色部分表示购买到心仪电脑的比例，本图表随机性较强，数据仅供参考。</p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="what-we-do">
+    <div class="container">
+        <h3>外设</h3>
+        <h3>Peripheral</h3>
+        <p class="fugiat">有这么一群人，为了追求极致手感与体验，在外设方面不惜投入了大量时间和金钱，他们就是外设发烧友。
+            在这里，自然少不了这么一群人。</p>
+        <div class="what-we-do-grids">
+            <div class="col-md-3 what-we-do-grid">
+                <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7hnoi1uxj208c08cn12.jpg" alt=" "
+                     class="img-responsive"/>
+                <h3>键盘</h3>
+                <h4>CORSAIR FILCO CoolerMaster Cherry HHKB...</h4>
+            </div>
+            <div class="col-md-3 what-we-do-grid">
+                <img src="http://wx1.sinaimg.cn/large/9894debfgy1ft7hnpef2gj208c08c0uf.jpg" alt=" "
+                     class="img-responsive"/>
+                <h3>鼠标</h3>
+                <h4>Logitech SteelSeries Razer Dareu...</h4>
+            </div>
+            <div class="col-md-3 what-we-do-grid">
+                <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7hnqnyztj208c08cwh8.jpg" alt=" "
+                     class="img-responsive"/>
+                <h3>耳机</h3>
+                <h4>Sennheiser Beyerdynamic Audio-technica AKG SONY ...</h4>
+            </div>
+            <div class="col-md-3 what-we-do-grid">
+                <img src="http://wx4.sinaimg.cn/large/9894debfgy1ft7hnr8bl2j208c08cjw4.jpg" alt=" "
+                     class="img-responsive"/>
+                <h3>主机</h3>
+                <h4>Republic of Gamers GIGABYTE EVGA MSI...</h4>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="team" id="team">
+    <div class="container">
+        <h3>装机</h3>
+        <h3>Desktop</h3>
+        <p class="fugiat">尽管笔记本目前性能不输台式，但限制于体积原因，在某些时候台式机还是很有必要的。
+            我们一直关注着目前最新硬件的各种信息，当你有装机需求时，我们会给你一份满意的配置单。</p>
+        <div class="team-grids">
+            <section class="main">
+                <ul class="ch-grid">
+                    <li>
+                        <div class="ch-item ch-img-1">
+                            <div class="ch-info">
+                                <h3>CPU推荐</h3>
+                                <p>更新到Ryzen 2代<a href="404.html">点击查看</a></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ch-item ch-img-2">
+                            <div class="ch-info">
+                                <h3>显卡推荐</h3>
+                                <p>11系显卡即将更新<a href="404.html">点击查看</a></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ch-item ch-img-3">
+                            <div class="ch-info">
+                                <h3>硬盘讲解</h3>
+                                <p>买硬盘需要注意的那点事<a href="404.html">点击查看</a></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="news" id="news">
+    <div class="container">
+        <h3>电竞</h3>
+        <h3>Competition</h3>
+        <p class="fugiat colr">电子竞技的魅力对于游戏玩家几乎无人不知，我们的目的就是让这股魅力一直传递下去。
+            集结于此，勇往直前。</p>
+        <div class="news-grid">
+            <div class="col-md-4 news-grid-left">
+                <div class="news-grid-left-top">
+                    <p><i class="glyphicon glyphicon-fire"
+                          aria-hidden="true"></i><span>火热的氛围</span></p>
+                </div>
+                <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7hnwz69vj208c08cjwz.jpg" alt=" "
+                     class="img-responsive"/>
+                <div class="news-pos">
+                    <p>一个好的氛围，能为你的电竞之路打下良好基础</p>
+                </div>
+            </div>
+            <div class="col-md-4 news-grid-left">
+                <div class="news-grid-left-top">
+                    <p><i class="glyphicon glyphicon-thumbs-up"
+                          aria-hidden="true"></i><span>优秀的队友</span></p>
+                </div>
+                <img src="http://wx4.sinaimg.cn/large/9894debfgy1ft7hnxnqlnj208c08c42f.jpg" alt=" "
+                     class="img-responsive"/>
+                <div class="news-pos">
+                    <p>团队游戏，每多一个神队友，就多了一份可能</p>
+                </div>
+            </div>
+            <div class="col-md-4 news-grid-left">
+                <div class="news-grid-left-top">
+                    <p><i class="glyphicon glyphicon-flash"
+                          aria-hidden="true"></i><span>完美的硬件</span></p>
+                </div>
+                <img src="http://wx4.sinaimg.cn/large/9894debfgy1ft7hnyie30j208c08cdjn.jpg" alt=" "
+                     class="img-responsive"/>
+                <div class="news-pos">
+                    <p>过硬的硬件基础，让你在操作上零失误</p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="customer">
+    <div class="container">
+        <h3>活动</h3>
+        <h3>Activity</h3>
+        <p class="fugiat">各种富有特色的活动，让你在学习之余得到放松。同时还能享受到各式各样免费的服务。</p>
+        <div class="wmuSlider example1">
+            <div class="wmuSliderWrapper">
+                <article style="position: absolute; width: 100%; opacity: 0;">
+                    <div class="banner-wrap">
+                        <div class="testimonials-grid">
+                            <div class="col-md-6 testimonials-grid-left">
+                                <div class="testimonials-grid-left1">
+                                    <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7hnt4pvyj206y06yacr.jpg" alt=" "
+                                         class="img-responsive"/>
+                                </div>
+                                <div class="testimonials-grid-right1">
+                                    <span>义务维修</span>
+                                    <p>每个月的下旬我们会针对全校同学进行免费的义务维修活动，无论你是否为协会成员，
+                                        你都可以免费享受到维修，清灰等计算机服务。</p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-md-6 testimonials-grid-left">
+                                <div class="testimonials-grid-left1">
+                                    <img src="http://wx1.sinaimg.cn/large/9894debfgy1ft7hnsnxh3j206y06yjun.jpg" alt=" "
+                                         class="img-responsive"/>
+                                </div>
+                                <div class="testimonials-grid-right1">
+                                    <span>电竞大赛</span>
+                                    <p>每学期我们会有一场校级电竞比赛，比赛游戏根据投票决定，
+                                        采用淘汰制度，可自行组成队伍，赛程结束后会根据名次颁发对应的证书和奖品。</p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article style="position: absolute; width: 100%; opacity: 0;">
+                    <div class="banner-wrap">
+                        <div class="testimonials-grid">
+                            <div class="col-md-6 testimonials-grid-left">
+                                <div class="testimonials-grid-left1">
+                                    <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7hntqaeij206y06ydhr.jpg" alt=" "
+                                         class="img-responsive"/>
+                                </div>
+                                <div class="testimonials-grid-right1">
+                                    <span>知识讲座</span>
+                                    <p>开学季是新生购机集中期，针对这个时间段，
+                                        我们会开展一场关于如何购买心仪电脑的知识讲座，通过这个讲座，
+                                        可以让你找到自己最心仪的笔记本。</p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-md-6 testimonials-grid-left">
+                                <div class="testimonials-grid-left1">
+                                    <img src="http://wx1.sinaimg.cn/large/9894debfgy1ft7hnz28e8j206y06yabt.jpg" alt=" "
+                                         class="img-responsive"/>
+                                </div>
+                                <div class="testimonials-grid-right1">
+                                    <span>知识竞赛</span>
+                                    <p>你对你自己所掌握的计算机知识够熟悉吗？如果是，
+                                        那么这场竞赛就是为你准备的。我们每年都会与信息工程学院合作，
+                                        并举办一场计算机知识竞赛。竞赛奖励丰厚，就等你来挑战。</p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article style="position: absolute; width: 100%; opacity: 0;">
+                    <div class="banner-wrap">
+                        <div class="testimonials-grid">
+                            <div class="col-md-6 testimonials-grid-left">
+                                <div class="testimonials-grid-left1">
+                                    <img src="http://wx4.sinaimg.cn/large/9894debfgy1ft7hnzqcojj206y06ygob.jpg" alt=" "
+                                         class="img-responsive"/>
+                                </div>
+                                <div class="testimonials-grid-right1">
+                                    <span>DIY</span>
+                                    <p>你觉得你的动手能力如何？要不来试试亲手打造一副属于你自己的外设？
+                                        我们自然会提供给你这个条件，每周日常活动上，我们会提供给你材料和教程。
+                                        只需一点灵感，即可得到你的专属DIY产品。</p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-md-6 testimonials-grid-left">
+                                <div class="testimonials-grid-left1">
+                                    <img src="http://wx1.sinaimg.cn/large/9894debfgy1ft7ho0cgjkj209q09qmzr.jpg" alt=" "
+                                         class="img-responsive"/>
+                                </div>
+                                <div class="testimonials-grid-right1">
+                                    <span>免费维修</span>
+                                    <p>觉得每月一次的维修还不够？平时电脑有问题不知道如何解决？
+                                        那就加入我们吧！成为社员，你可以享受大学四年期间维修免费的专属服务。</p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <script src="js/jquery.wmuSlider.js"></script>
+        <script>
+            $('.example1').wmuSlider();
+        </script>
+    </div>
+</div>
+<div class="services" id="services">
+    <div class="container">
+        <h3>资源</h3>
+        <h3>Resource</h3>
+        <p class="fugiat">学习资料，应用软件，考研资料等等，只要我们能找到的，就能为你提供。
+            让你不再为寻找各种资源而犯愁。</p>
+        <div class="service-grids">
+            <div class="col-md-4 service-grid">
+                <div class="service-icon">
+                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                </div>
+                <h4>应用软件</h4>
+                <p>常用办公软件合集，软件经过测试，绝对安全。
+                    你无需再为担心下载未知软件中毒而烦恼</p>
+                <div class="more">
+                    <a href="https://pan.baidu.com/s/16KjomifYdNpAXEw-DqW5Ng" target="view_window">查看合集</a>
+                </div>
+            </div>
+            <div class="col-md-4 service-grid">
+                <div class="service-icon">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                </div>
+                <h4>考研资料</h4>
+                <p>包含了目前最新版本的考研视频。
+                    它能帮助你在考研的路上更加轻松。</p>
+                <div class="more">
+                    <a href="https://pan.baidu.com/s/1D3I0VWqbEJQvnG9ziAxHzA" target="view_window">查看资料</a>
+                </div>
+            </div>
+            <div class="col-md-4 service-grid">
+                <div class="service-icon">
+                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                </div>
+                <h4>精品软件</h4>
+                <p>我们整理了很多实用的小工具，也许这些工具不常用，但它们可以在你需要时出现，并解决你的燃眉之急。</p>
+                <div class="more">
+                    <a href="https://pan.baidu.com/s/1pA1964_TM0HS9JxTW4Cp8Q" target="view_window">查看工具</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div id="contact" class="contact">
+    <div class="container">
+        <h3>联系我们</h3>
+        <h3>Contact Us</h3>
+        <p class="fugiat">我们有以下一些联系方式，欢迎前来咨询！</p>
+        <div class="contact-us1-bottom">
+            <div class="home-radio-clock">
+                <ul>
+                    <li><i class="glyphicon glyphicon-home" aria-hidden="true"></i>地址</li>
+                    <li><i class="glyphicon glyphicon-bullhorn" aria-hidden="true"></i>联系方式</li>
+                    <li><i class="glyphicon glyphicon-time" aria-hidden="true"></i>工作时间</li>
+                </ul>
+            </div>
+            <div class="home-radio-clock-right">
+                <ul>
+                    <li>武汉市 江夏区 杨桥湖大道一号
+                        <span> 武汉设计工程学院大活202室</span></li>
+                    <li class="lst">QQ群:141053911</li>
+                    <li>节假日除外全天<span>Mon-Fri:</span><span>09:00-17:00</span></li>
+                </ul>
+            </div>
+            <div class="contact-us1-bottom">
+                <div class="weibo_code">
+                    <p>微博二维码</p>
+                    <img src="http://wx2.sinaimg.cn/large/9894debfgy1ft7ho4yih9j205k0560ti.jpg">
+                    </ul>
+                </div>
+                <div class="wechat_code">
+                    <p>微信二维码</p>
+                    <img src="http://wx4.sinaimg.cn/large/9894debfgy1ft7ho2rzsfj205k05kmy3.jpg">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="map">
+                <iframe src="https://uri.amap.com/marker?position=114.409493,30.402723&name=武汉设计工程学院" frameborder="0"
+                        style="border:0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="container">
+        <div class="footer-left">
+            <p>© 2018 Computer Knowledge Community. All rights reserved | Design by ZhangShuo.</p>
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42011302000513"
+               style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img
+                    src="images/ewbh.png" style="float:left;"/>
+                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px;">鄂公网安备 42011302000513号
+                    鄂ICP备18017417号-1</p></a>
+
+        </div>
+        <div class="footer-right">
+            <ul>
+                <li><a href="https://weibo.com/CKCHOME?refer_flag=1001030102" target="view_window" class="f"> </a></li>
+                <li><a href="https://jq.qq.com/?_wv=1027&k=5KZ85U5" target="view_window" class="f1"> </a></li>
+                <li><a id="wechat_end" title="扫一扫关注微信"
+                       data-toggle="popover" data-placement="top" class="f2"> </a></li>
+                <li><a href="https://tieba.baidu.com/f?fr=wwwt&kw=CKC%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8D%8F%E4%BC%9A"
+                       target="view_window" class="f3"> </a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $().UItoTop({easingType: 'easeOutQuart'});
+
+    });
+</script>
+<script>
+    $('#wechat_first').popover({
+        trigger: 'hover',
+        html: true,
+        content: "<img src='http://wx4.sinaimg.cn/large/9894debfgy1ft7ho2rzsfj205k05kmy3.jpg'>"
+    });
+    $('#wechat_end').popover({
+        trigger: 'hover',
+        html: true,
+        content: "<img src='http://wx4.sinaimg.cn/large/9894debfgy1ft7ho2rzsfj205k05kmy3.jpg'>"
+    });
+</script>
+
+</body>
+
+</html>

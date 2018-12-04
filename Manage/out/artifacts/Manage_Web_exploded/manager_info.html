@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>综合管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!--Bootstrap-Switch-->
+    <script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
+
+    <!--SweetAlert2-->
+    <script src="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.min.js"></script>
+
+    <!--toastr.js-->
+    <script src="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+
+
+</head>
+
+<body class="gray-bg">
+<div class="row">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="wrapper wrapper-content animated fadeInRight">
+
+                    <div class="ibox-content m-b-sm border-bottom">
+                        <div class="p-xs">
+                            <div class="pull-left m-r-md">
+                                <i class="fa fa-globe text-navy mid-icon"></i>
+                            </div>
+                            <h2>综合管理</h2>
+                            <span>可进行部分主页信息的管理</span>
+                        </div>
+                    </div>
+                    <div class="ibox-content forum-container">
+                        <div class="widget navy-bg no-padding">
+                            <div class="p-m">
+                                <h1 class="m-xs">招新状态</h1>
+                                <small>主页提交社员信息的开关</small>
+                                <ul class="list-unstyled m-t-md">
+                                    <h3 class="font-bold no-margins">
+                                        <div class="switch">
+                                            <input type="checkbox" id="create_switch" name="create_switch"/>
+                                        </div>
+                                    </h3>
+                                </ul>
+                            </div>
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-chart1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];
+    var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];
+
+    var data1 = [
+        {
+            label: "Data 1",
+            data: d1,
+            color: '#17a084'
+        },
+        {
+            label: "Data 2",
+            data: d2,
+            color: '#127e68'
+        }
+    ];
+    $.plot($("#flot-chart1"), data1, {
+        xaxis: {
+            tickDecimals: 0
+        },
+        series: {
+            lines: {
+                show: true,
+                fill: true,
+                fillColor: {
+                    colors: [{
+                        opacity: 1
+                    }, {
+                        opacity: 1
+                    }]
+                },
+            },
+            points: {
+                width: 0.1,
+                show: false
+            },
+        },
+        grid: {
+            show: false,
+            borderWidth: 0
+        },
+        legend: {
+            show: false,
+        }
+    })
+
+    //获取状态
+    function getajax() {
+        $.ajax({
+            url: "/state",
+            type: "get",
+            success: function (result) {
+                var states = result.extend.recruit[0].state;
+                if (states == 0) {
+                    $("#create_switch").bootstrapSwitch('state',false,true);
+                }
+                if (states == 1) {
+                    $("#create_switch").bootstrapSwitch('state',true,true);
+                }
+            }
+        })
+    }
+
+    $(document).ready(function (){
+        getajax();
+        //初始化switch
+        $('[name="create_switch"]').bootstrapSwitch({
+            onText: "招新进行中",
+            offText: "招新已结束",
+            onColor: "info",
+            offColor: "danger",
+            size: "Large",
+            animate:true,
+            onSwitchChange: function (event, state) {
+                var alert;
+                if (state == true) {
+                    alert = 1;
+                }
+                if (state == false) {
+                    alert = 0;
+                }
+                rec_alter(state, alert)
+            }
+        })
+
+    });
+
+    //更改主页招新信息
+    function rec_alter(state, alter) {
+        var info;
+        if (state == 1) {
+            info = "开始招新";
+        }
+        if (state == 0) {
+            info = "停止招新";
+        }
+        swal({
+            title: "是否更改主页当前招新状态为" + "<p class=\"text-danger\">" + info + "？</p>",
+            text: "请确认当前招新状态后再进行更改",
+            type: "warning",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认更改！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(
+            function (isConfirm) {
+                var result = isConfirm.value;
+                if (result === true) {
+                    $.ajax({
+                        url: "/alter/" + 1,
+                        type: "PUT",
+                        data: {"state": alter},
+                        success: function (result) {
+                            if (result.code == 100) {
+                                swal(
+                                    '操作成功',
+                                    '招新状态已更改',
+                                    'success'
+                                );
+                                toastr.success('修改成功');
+                                getajax();
+                            } else {
+                                toastr.success('处理失败');
+                            }
+                        }
+                    })
+                } else {
+                    getajax();
+                }
+            })
+    };
+</script>
+</body>
+
+</html>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--[if lt IE]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+
+    <title>经费管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link href="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.css" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+    <!--toastr.js-->
+    <script src="https://cdn.bootcss.com/toastr.js/2.1.4/toastr.min.js"></script>
+    <!--SweetAlert2-->
+    <script src="https://cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.min.js"></script>
+
+    <!--TableExport-->
+    <script src="https://cdn.bootcss.com/xlsx/0.12.13/xlsx.core.min.js"></script>
+    <script src="js/plugins/bootstrap-table/tableExport.min.js"></script>
+
+
+    <!-- Bootstrap table -->
+    <script src="js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <style>
+        /* Additional style to fix warning dialog position */
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>经费管理</h5>
+                </div>
+                <div class="ibox-content">
+                    <h4 class="m-t">管理经费与支出</h4>
+                    <div class="row-fluid">
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm" id="btn-add">
+                                    <i class="fa fa-plus">添加支出</i>
+                                </button>
+                                <button type="button" class="btn btn-info btn-sm" id="btn-delAll">
+                                    <i class="fa fa-remove">批量删除</i>
+                                </button>
+                                <button type="button" class="btn btn-info btn-sm " id="exportTable">
+                                    <i class="fa fa-sign-in">导出表格</i>
+                                </button>
+                                <button type="button" class="btn btn-info btn-sm" id="btn-re">
+                                    <i class="fa fa-refresh">刷新</i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <form id="queryForm" action="#" method="post">
+                                <div class="col-xs-5">
+                                    <input type="text" id="keyword" name="keyword"
+                                           class="form-control input-sm" placeholder="按物品搜索">
+                                </div>
+                                <button type="button" class="btn btn-info btn-sm" id="btn-search">
+                                    <i class="fa fa-search">搜索</i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <table id="table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal-Add-->
+<div id="modal-form" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <h3 class="m-t-none m-b">添加物品</h3>
+                    <div class="hr-line-dashed"></div>
+                    <div class="col-md-12">
+                        <form id="add_input" name="myform" class="form-horizontal">
+                            <div class="form-group">
+                                <label>物品</label>
+                                <input type="text" class="form-control" name="item" id="name_input" placeholder="请输入物品名称">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>单价</label>
+                                <input type="text" class="form-control" name="price" id="major_input" onkeyup="sum_input(this);"
+                                       placeholder="请输入单价">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>数量</label>
+                                <input type="text" class="form-control" name="num" id="qq_input" onkeyup="sum_input(this);"
+                                       placeholder="请输入输入">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>总价</label>
+                                <input type="text" class="form-control" name="total" id="phone_input"
+                                        placeholder="总价自动计算，可手动输入">
+                                <span class="help-block"></span>
+                            </div>
+                        </form>
+                        <div class="hr-line-dashed"></div>
+                        <div class="col-md-8 col-md-offset-8">
+                            <button class="btn btn-info" type="submit" id="save_btn">保存内容</button>
+                            <button class="btn btn-white" data-dismiss="modal" type="submit">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal-update-->
+<div id="modal-update" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <h3 class="m-t-none m-b">修改物品</h3>
+                    <div class="hr-line-dashed"></div>
+                    <div class="col-md-12">
+                        <form id="update_input" class="form-horizontal">
+                            <p class="form-control-static" name="expid" id="memid_update" style="display: none;"></p>
+                            <div class="form-group">
+                                <label>物品</label>
+                                <h3 class="form-control-static" name="item" id="name_update_static"></h3>
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>单价</label>
+                                <input type="text" class="form-control" name="price" id="major_update" onkeyup="sum_update(this);"
+                                       placeholder="请输入单价">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>数量</label>
+                                <input type="text" class="form-control" name="num" id="qq_update"  onkeyup="sum_update(this);"
+                                       placeholder="请输入数量">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>总价</label>
+                                <input type="text" class="form-control" name="total" id="phone_update"
+                                       placeholder="总价自动计算，可手动输入">
+                                <span class="help-block"></span>
+                            </div>
+                        </form>
+                        <div class="hr-line-dashed"></div>
+                        <div class="col-md-8 col-md-offset-8">
+                            <button class="btn btn-info" type="submit" id="save_update_btn">保存修改</button>
+                            <button class="btn btn-white" data-dismiss="modal" type="submit">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#table').bootstrapTable({
+            url: "/exps",
+            responseHandler: function (res) {
+                //在ajax获取到数据，渲染表格之前，修改数据源
+                var nres = [];
+                nres.push({
+                    total: res.extend.pageInfo.total,
+                    rows: res.extend.pageInfo.list,
+                    pageSize: res.extend.pageInfo.pageSize,
+                });
+                return nres[0];
+            },
+            type: "get",
+            locale: 'zh-CN',
+            toolbar: '#toolbar',
+            striped: true,
+            pagination: true,
+            cache: true,
+            sidePagination: "server",
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 'All'],
+            search: false,
+            clickToSelect: true,
+            cardView: false,
+            queryParamsType: '',
+            columns: [
+                {
+                    field: 'expid',
+                    title: 'ID'
+                }, {
+                    field: 'item',
+                    title: '物品'
+                }, {
+                    field: 'price',
+                    title: '单价'
+                }, {
+                    field: 'num',
+                    title: '数量'
+                }, {
+                    field: 'total',
+                    title: '总价'
+                }, {
+                    field: 'Button',
+                    title: '操作',
+                    formatter: AddFunctionAlty,
+                    align:'center'
+                },
+                {
+                    checkbox: true,
+                }]
+        });
+    });
+
+    function AddFunctionAlty() {
+        return [
+            "<div class='btn-group'>" +
+            '<button id="TableEditor" type="button" class="btn btn-info btn-sm btn-rounded  update_btn"><i class=\'fa fa-edit\'></i></button>' +
+            '<button id="TableDelete" type="button" class="btn btn-info btn-sm btn-rounded delete_btn"><i class=\'fa fa-trash-o\'></i></button>' +
+            "</div>"
+        ].join("")
+    }
+
+    //获取页码
+    $.ajax({
+        url: "exps",
+        type: "get",
+        success: function (result) {
+            LastPage=result.extend.pageInfo.pages;
+            pageNum=result.extend.pageInfo.pageNum;
+        }
+    });
+
+    //表单重置
+    function reset_form(ele) {
+        $(ele)[0].reset();
+        $(ele).find("*").removeClass("has-error has-success");
+        $(ele).find(".help-block").text("");
+    }
+
+    //添加社员按钮事件
+    $("#btn-add").click(function () {
+        reset_form("#modal-form form");
+        $("#modal-form").modal({});
+    })
+
+    //修改社员按钮事件
+    $(document).on("click", ".update_btn", function () {
+        reset_form("#modal-update form");
+        var id = $(this).parents("tr").find("td:eq(0)").text();
+        getEmp(id);
+        $("#modal-update").modal({});
+    });
+
+    //表单提示
+    function show_validate_msg(ele, status, msg) {
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text("");
+        if ("success" == status) {
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+
+
+        } else if ("error" == status) {
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
+
+
+
+    //输入框失去焦点的时候执行，form:input获取表格的输入框
+    $("#name_input").blur(function () {
+        var Name = document.myform.item.value;
+        if (Name == "") {
+            show_validate_msg("#name_input", "error", "请输入物品名");
+            $("#save_btn").attr("ajax-va", "error");
+            document.myform.item.focus();
+            return false;
+        }else {
+            show_validate_msg("#name_input", "success", "");
+            $("#save_btn").attr("ajax-va", "success");
+        }
+    })
+
+    $("#major_input").blur(function () {
+        var major = $("#major_input").val();
+        var regmajor = /^[1-9]\d*$/;
+        if (!regmajor.test(major)) {
+            show_validate_msg("#major_input", "error", "请输入数字");
+            $("#save_btn").attr("ajax-va", "error");
+            return false;
+        } else {
+            show_validate_msg("#major_input", "success", "");
+            $("#save_btn").attr("ajax-va", "success");
+        }
+    })
+
+    $("#qq_input").blur(function () {
+        var qq = $("#qq_input").val();
+        var regqq = /^[1-9]\d*$/;
+        if (!regqq.test(qq)) {
+            show_validate_msg("#qq_input", "error", "请输入数字");
+            $("#save_btn").attr("ajax-va", "error");
+            return false;
+        } else {
+            show_validate_msg("#qq_input", "success", "");
+            $("#save_btn").attr("ajax-va", "success");
+        }
+    })
+
+    $("#phone_input").blur(function () {
+        var phone = $("#phone_input").val();
+        var regphone = /^[1-9]\d*$/;
+        if (!regphone.test(phone)) {
+            show_validate_msg("#phone_input", "error", "请输入数字");
+            $("#save_btn").attr("ajax-va", "error");
+            return false;
+        } else {
+            show_validate_msg("#phone_input", "success", "");
+            $("#save_btn").attr("ajax-va", "success");
+        }
+    });
+
+    //保存时验证
+    $("#save_btn").click(function () {
+        var Name = document.myform.item.value;
+        var major = document.myform.price.value;
+        var qq = document.myform.num.value;
+        var phone = document.myform.total.value;
+        if (Name == "") {
+            show_validate_msg("#name_input", "error", "请输入物品名");
+            document.myform.item.focus();
+            return false;
+        }
+        if (major == "") {
+            show_validate_msg("#major_input", "error", "请输入单价");
+            document.myform.price.focus();
+            return false;
+        }
+        if (qq == "") {
+            show_validate_msg("#qq_input", "error", "请输入数量");
+            document.myform.num.focus();
+            return false;
+        }
+        if (phone == "") {
+            show_validate_msg("#phone_input", "error", "请输入总价");
+            document.myform.total.focus();
+            return false;
+        }
+        if ($(this).attr("ajax-va") == "error") {
+            return false;
+        }
+        $('#modal-form').modal("hide");
+        swal({
+            title: "即将添加新物品" + "<a class=\"text-danger\">" + Name + "</a>" +
+                "<p>新物品的信息如下:</p>",
+            html: "<p>单价:<a class=\"text-danger\">" + major + "</a></p>" +
+                "<p>数量:<a class=\"text-danger\">" + qq + "</a></p>" +
+                "<p>总价:<a class=\"text-danger\">" + phone + "</a></p>" +
+                "<p>请确认信息是否正确</p>",
+            type: "info",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认添加！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(function (isConfirm) {
+            var result = isConfirm.value;
+            if (result === true) {
+                $.ajax({
+                    url: "/exp",
+                    type: "POST",
+                    data: $("#modal-form form").serialize(),
+                    success: function (result) {
+                        if (result.code == 100) {
+                            swal(
+                                '操作成功',
+                                '物品信息已添加',
+                                'success'
+                            )
+                            toastr.success('提交数据成功');
+                            $("#table").bootstrapTable("selectPage", LastPage);
+                        } else {
+                            if (underfined != result.extend.errorFields.item) {
+                                show_validate_msg("#name_input", "error", result.extend.errorFields.item);
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    });
+
+    //获取用户信息
+    function getEmp(id) {
+        $.ajax({
+            url: "/exp/" + id,
+            type: "GET",
+            success: function (result) {
+                var expData = result.extend.exp;
+                $("#memid_update").text(expData.expid);
+                $("#name_update_static").text(expData.item);
+                $("#major_update").val(expData.price);
+                $("#qq_update").val(expData.num);
+                $("#phone_update").val(expData.total);
+            }
+        })
+    };
+
+    //修改
+    $("#save_update_btn").click(function () {
+        var id = document.getElementById("memid_update").innerText;
+        var Name = document.getElementById("name_update_static").innerText;
+        var major = $("#major_update").val();
+        var regmajor = /^[1-9]\d*$/;
+        if (!regmajor.test(major)) {
+            show_validate_msg("#major_update", "error", "请输入数字");
+            $("#save_btn").attr("ajax-va", "error");
+            return false;
+        } else {
+            show_validate_msg("#major_update", "success", "");
+            $("#save_btn").attr("ajax-va", "success");
+        }
+        var qq = $("#qq_update").val();
+        var regqq = /^[1-9]\d*$/;
+        if (!regqq.test(qq)) {
+            show_validate_msg("#qq_update", "error", "请输入数字");
+            $("#save_btn").attr("ajax-va", "error");
+            return false;
+        } else {
+            show_validate_msg("#qq_update", "success", "");
+            $("#save_btn").attr("ajax-va", "success");
+        }
+        var phone = $("#phone_update").val();
+        var regphone = /^[1-9]\d*$/;
+        if (!regphone.test(phone)) {
+            show_validate_msg("#phone_update", "error", "请输入数字");
+            $("#save_btn").attr("ajax-va", "error");
+            return false;
+        } else {
+            show_validate_msg("#phone_update", "success", "");
+            $("#save_btn").attr("ajax-va", "success");
+        }
+        $("#modal-update").modal("hide");
+        swal({
+            title: "物品" + "<a class=\"text-danger\">" + Name + "</a>" + "的信息即将修改" +
+                "<p>修改后的信息如下:</p>",
+            html: "<p>单价:<a class=\"text-danger\">" + major + "</a></p>" +
+                "<p>数量:<a class=\"text-danger\">" + qq + "</a></p>" +
+                "<p>总价:<a class=\"text-danger\">" + phone + "</a></p>" +
+                "<p>请确认信息是否正确</p>",
+            type: "info",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认修改！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(function (isConfirm) {
+            var result = isConfirm.value;
+            if (result === true) {
+                $.ajax({
+                    url: "/exp/" + id,
+                    type: "PUT",
+                    data: $("#modal-update form").serialize(),
+                    success: function (result) {
+                        if (result.code == 100) {
+                            swal(
+                                '操作成功',
+                                '物品信息已修改',
+                                'success'
+                            )
+                            toastr.success('修改成功');
+                            $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                        } else {
+                            toastr.success('处理失败');
+                        }
+                    }
+                })
+            }
+        })
+    });
+
+    //删除
+    $(document).on("click", ".delete_btn", function () {
+        var empName = $(this).parents("tr").find("td:eq(1)").text();
+        var id = $(this).parents("tr").find("td:eq(0)").text();
+        swal({
+            title: "是否删除物品" + "<p class=\"text-danger\">" + empName + "</p>",
+            text: "该操作不可逆，请仔细核对",
+            type: "warning",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认删除！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(function (isConfirm) {
+            var result = isConfirm.value;
+            if (result === true) {
+                $.ajax({
+                    url: "/exp/" + id,
+                    type: "DELETE",
+                    success: function (result) {
+                        if (result.code == 100) {
+                            swal(
+                                '操作成功',
+                                '物品信息已删除',
+                                'success'
+                            )
+                            toastr.success('删除成功');
+                            $("#table").bootstrapTable("refresh", {pageNumber:pageNum});
+                        } else {
+                            toastr.success('处理失败');
+                        }
+                    }
+                })
+            }
+        })
+    })
+
+    //批量删除
+    $("#btn-delAll").click(function () {
+        var rows = $("#table").bootstrapTable('getSelections');
+        if (rows.length == 0) {
+            swal(
+                '你还没选择任何物品',
+                '请先选择要删除的物品！！',
+                'warning'
+            )
+            return;
+        }
+        var del_idstr = "";
+        for (var i = 0; i < rows.length; i++) {
+            del_idstr += rows[i]['expid'] + "-";
+        }
+        swal({
+            title: "确定要删除选中的物品吗？",
+            text: "该操作不可逆，请仔细核对",
+            type: "warning",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认删除！",
+            confirmButtonColor: "#ec6c62",
+            cancelButtonText: "取消"
+        }).then(function (isConfirm) {
+            var result = isConfirm.value;
+            if (result === true) {
+                $.ajax({
+                    url: "/exp/" + del_idstr,
+                    type: "DELETE",
+                    success: function (result) {
+                        if (result.code == 100) {
+                            swal(
+                                '操作成功',
+                                '物品信息已删除',
+                                'success'
+                            )
+                            toastr.success('删除成功');
+                            $("#table").bootstrapTable("refresh", {pageNumber: pageNum});
+                        } else {
+                            toastr.success('处理失败');
+                        }
+                    }
+                })
+            }
+            ;
+        });
+    })
+
+    //刷新
+    $("#btn-re").click(function () {
+        $("#table").bootstrapTable("refresh", {
+            url: "/exps",
+            pageNumber: 1
+        });
+    })
+
+    //导出Excel
+    $("#exportTable").click(function () {
+        swal({
+            title: "导出表格",
+            html: " <p>将目前页面信息生成Excel表格并导出</p>"+
+                "<p>Tip:建议在本页显示所有表单数据后再进行导出</p>",
+            type: "info",
+            showCancelButton: "true",
+            showConfirmButton: "true",
+            confirmButtonText: "确认导出",
+            confirmButtonColor: "#26ceec",
+            cancelButtonText: "取消"
+        }).then(function (isConfirm) {
+            var result = isConfirm.value;
+            if (result === true) {
+                $('#table').tableExport({
+                    type: 'xlsx',
+                    tableName: 'CKC计算机协会_财务表',
+                    fileName: 'CKC计算机协会_财务表',
+                    ignoreColumn: [0, 5, 6],
+                });
+                swal(
+                    '操作成功',
+                    '已导出Excel表格文件',
+                    'success'
+                )
+            }
+        })
+    }),
+
+        //搜索
+        $("#btn-search").click(function () {
+            $('#table').bootstrapTable('refresh', {
+                url: '/searchexp?'+'item='+$('#keyword').val(),
+            })
+        })
+
+    //去空格
+    $("input").change(function(){
+        $(this).val($(this).val().trim());
+    });
+    String.prototype.trim=function(){
+        return this.replace(/(^\s*)|(\s*$)/g, "");
+    }
+
+    //自动计算
+    function sum_input(obj) {
+        var price=document.getElementById("major_input");
+        var num=document.getElementById("qq_input");
+        var total=document.getElementById("phone_input");
+        if(price.value!=""&&num.value!=""){
+            total.value=parseInt(price.value)*parseInt(num.value);
+        }
+    }
+
+    function sum_update(obj) {
+        var price=document.getElementById("major_update");
+        var num=document.getElementById("qq_update");
+        var total=document.getElementById("phone_update");
+        if(price.value!=""&&num.value!=""){
+            total.value=parseInt(price.value)*parseInt(num.value);
+        }
+    }
+</script>
+</body>
+
+</html>
+

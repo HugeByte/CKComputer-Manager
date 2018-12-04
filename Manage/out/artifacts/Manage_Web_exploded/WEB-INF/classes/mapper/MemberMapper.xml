@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ckc.mag.dao.MemberMapper">
+    <resultMap id="BaseResultMap" type="com.ckc.mag.bean.Member">
+        <id column="memid" jdbcType="INTEGER" property="memid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="qq" jdbcType="VARCHAR" property="qq"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="pay" jdbcType="CHAR" property="pay"/>
+        <result column="pic" jdbcType="CHAR" property="pic"/>
+    </resultMap>
+    <resultMap id="WithPayAndPicResultMap" type="com.ckc.mag.bean.Member">
+        <id column="memid" jdbcType="INTEGER" property="memid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="qq" jdbcType="VARCHAR" property="qq"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    memid, name, major, qq, phone, pay, pic
+  </sql>
+    <sql id="WithPayAndPic_List">
+    memid, name, major, qq, phone
+  </sql>
+    <select id="selectByExample" parameterType="com.ckc.mag.bean.MemberExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from member
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExampleWithPayAndPic" parameterType="com.ckc.mag.bean.MemberExample"
+            resultMap="WithPayAndPicResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="WithPayAndPic_List"/>
+        from member
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member
+        where memid = #{memid,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPayAndPic" parameterType="com.ckc.mag.bean.MemberExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="WithPayAndPic_List"/>
+        from member
+        where pay=1 and pic=1
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByName" parameterType="com.ckc.mag.bean.MemberExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member
+        <where>
+            <if test="name!=null and name!=''">
+                and name like '%' #{name} '%'
+            </if>
+            <if test="pay!=null and  pay!= ''">
+                and pay=#{pay}
+            </if>
+            <if test="pic!=null and pic!=''">
+                and pic=#{pic}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where memid = #{memid,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.ckc.mag.bean.MemberExample">
+        delete from member
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ckc.mag.bean.Member">
+    insert into member (memid, name, major, 
+      qq, phone, pay, pic
+      )
+    values (#{memid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{pay,jdbcType=CHAR}, #{pic,jdbcType=CHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.ckc.mag.bean.Member">
+        insert into member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memid != null">
+                memid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="major != null">
+                major,
+            </if>
+            <if test="qq != null">
+                qq,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="pay != null">
+                pay,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memid != null">
+                #{memid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="qq != null">
+                #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="pay != null">
+                #{pay,jdbcType=CHAR},
+            </if>
+            <if test="pic != null">
+                #{pic,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ckc.mag.bean.MemberExample" resultType="java.lang.Long">
+        select count(*) from member
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update member
+        <set>
+            <if test="record.memid != null">
+                memid = #{record.memid,jdbcType=INTEGER},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.major != null">
+                major = #{record.major,jdbcType=VARCHAR},
+            </if>
+            <if test="record.qq != null">
+                qq = #{record.qq,jdbcType=VARCHAR},
+            </if>
+            <if test="record.phone != null">
+                phone = #{record.phone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pay != null">
+                pay = #{record.pay,jdbcType=CHAR},
+            </if>
+            <if test="record.pic != null">
+                pic = #{record.pic,jdbcType=CHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update member
+        set memid = #{record.memid,jdbcType=INTEGER},
+        name = #{record.name,jdbcType=VARCHAR},
+        major = #{record.major,jdbcType=VARCHAR},
+        qq = #{record.qq,jdbcType=VARCHAR},
+        phone = #{record.phone,jdbcType=VARCHAR},
+        pay = #{record.pay,jdbcType=CHAR},
+        pic = #{record.pic,jdbcType=CHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ckc.mag.bean.Member">
+        update member
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                major = #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="qq != null">
+                qq = #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="pay != null">
+                pay = #{pay,jdbcType=CHAR},
+            </if>
+            <if test="pic != null">
+                pic = #{pic,jdbcType=CHAR},
+            </if>
+        </set>
+        where memid = #{memid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ckc.mag.bean.Member">
+    update member
+    set name = #{name,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      pay = #{pay,jdbcType=CHAR},
+      pic = #{pic,jdbcType=CHAR}
+    where memid = #{memid,jdbcType=INTEGER}
+  </update>
+</mapper>

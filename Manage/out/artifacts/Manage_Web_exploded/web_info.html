@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>本站信息</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0"></script>
+
+    <script src="https://cdn.bootcss.com/Nestable/2012-10-15/jquery.nestable.min.js"></script>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                        <button class="btn btn-white btn-xs" type="button">文档</button>
+                        <button class="btn btn-white btn-xs" type="button">系统用法</button>
+                        <button class="btn btn-white btn-xs" type="button">站点信息</button>
+                    </div>
+                    <div class="text-center article-title">
+                        <h1>
+                            使用文档
+                        </h1>
+                    </div>
+                    <blockquote>
+                        <h2>前言</h2>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        鸽了大概一个多月后，算是断断续续把这个系统给做完了。目前基本的功能应该是可以实现了，剩下的功能应该也会慢慢添加进去。
+                    </p>
+                    <p>
+                        槽就吐这么多，接下来会针对该系统的功能进行一一详解，在使用该系统前请<a class="text-danger">务必先阅读本文档</a>。
+                    </p>
+                    <hr>
+                    <br/>
+                    <blockquote>
+                        <h2>导航</h2>
+                    </blockquote>
+                    <hr>
+                    <div class="dd" id="nestable">
+                        <ol class="dd-list">
+                            <li class="dd-item" data-id="1">
+                                <a href="#index">
+                                    <div class="dd-handle">
+                                        <span class="label label-info"><i class="fa fa-home"></i></span> 1 - 主页
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="dd-item" data-id="2">
+                                <a href="#member">
+                                    <div class="dd-handle">
+                                        <span class="label label-warning"><i class="fa fa-users"></i></span> 2 - 社员管理
+                                    </div>
+                                </a>
+                                <ol class="dd-list">
+                                    <li class="dd-item" data-id="3">
+                                        <a href="#member_formal">
+                                            <div class="dd-handle">
+                                                <span class="label label-warning"><i class="fa fa-users"></i></span> 2 -
+                                                1
+                                                正式社员管理
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="dd-item" data-id="4">
+                                        <a href="#member_change">
+                                            <div class="dd-handle">
+                                                <span class="label label-warning"><i class="fa fa-users"></i></span> 2 -
+                                                2
+                                                社员转正
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li class="dd-item" data-id="5">
+                                <a href="#index_manager">
+                                    <div class="dd-handle">
+                                        <span class="label label-primary"><i class="fa fa-cogs"></i></span> 3 - 主页管理
+                                    </div>
+                                </a>
+                                <ol class="dd-list">
+                                    <li class="dd-item" data-id="6">
+                                        <a href="#start_index">
+                                            <div class="dd-handle">
+                                                <span class="label label-primary"><i class="fa fa-cogs"></i></span> 3 -
+                                                1
+                                                进入前台主页
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="dd-item" data-id="7">
+                                        <a href="#manager_info">
+                                            <div class="dd-handle">
+                                                <span class="label label-primary"><i class="fa fa-cogs"></i></span> 3 -
+                                                2
+                                                前台信息管理
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li class="dd-item" data-id="8">
+                                <a href="#data_manager">
+                                    <div class="dd-handle">
+                                        <span class="label label-success"><i class="fa fa-bar-chart-o"></i></span> 4 -
+                                        数据管理
+                                    </div>
+                                </a>
+                                <ol class="dd-data">
+                                    <li class="dd-item" data-id="6">
+                                        <a href="#pay_manager">
+                                            <div class="dd-handle">
+                                                <span class="label label-success"><i
+                                                        class="fa fa-bar-chart-o"></i></span> 4
+                                                - 1 经费管理
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="dd-item" data-id="7">
+                                        <a href="#web_info">
+                                            <div class="dd-handle">
+                                                <span class="label label-success"><i
+                                                        class="fa fa-bar-chart-o"></i></span> 4
+                                                - 2 网站数据
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li class="dd-item" data-id="9">
+                                <a href="#tools">
+                                    <div class="dd-handle">
+                                        <span class="label label-white"><i class="fa fa-table"></i></span> 5 - 小工具
+                                    </div>
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                    <hr>
+                    <br/>
+                    <blockquote>
+                        <h2 id="index">
+                            主页
+                        </h2>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        主页上数据栏显示目前<span class="label label-primary">登记人数</span>，
+                        已经成为<span class="label label-primary">正式社员人数</span>，
+                        当前前台的<span class="label label-primary">招新状态</span>，
+                        以及<span class="label label-primary">社费额度</span>的数据
+                    </p>
+                    <p>
+                        服务器状态栏上显示当前<span class="label label-primary">服务器CPU负载</span>情况
+                    </p>
+                    <p>
+                        公告栏显示管理员发布的<span class="label label-primary">公告</span>
+                    </p>
+                    <p>
+                        社员信息栏显示部分<span class="label label-primary">正式社员</span>的信息，点击社员管理按钮进入<span
+                            class="label label-primary">正式社员管理</span>界面
+                    </p>
+                    <hr>
+                    <br/>
+                    <blockquote>
+                        <h2 id="member">
+                            社员信息
+                        </h2>
+                    </blockquote>
+                    <hr>
+                    <blockquote>
+                        <h3 id="member_formal">
+                            正式社员管理
+                        </h3>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        正式社员管理包括<span class="label label-primary">搜索工具栏</span>
+                        <span class="label label-primary">社员表</span>与
+                        <span class="label label-primary">分页栏</span>
+                    </p>
+                    <p>
+                        <span class="label label-primary">搜索工具栏</span>包含
+                        <span class="label label-primary">搜索框</span>与
+                        <span class="label label-primary">操作栏</span>
+                    </p>
+                    <br/>
+                    <p>
+                        <span class="label label-info">搜索:</span>输入
+                        <span class="label label-primary">姓名</span>后点击
+                        <span class="label label-primary">搜索</span>，将显示搜索后的结果
+                    </p>
+                    <p>
+                        <span class="label label-info">添加:</span>点击后弹出窗口，在窗口内输入需要添加的社员信息后确认，
+                        确认成功后添加社员信息。 <span class="label label-warning">注意:</span>添加后的社员信息为
+                        <span class="label label-primary">正式社员</span>，状态默认为
+                        <span class="label label-primary">已缴费</span>与
+                        <span class="label label-primary">已交照片</span>
+                    </p>
+                    <p>
+                        <span class="label label-info">批量删除:</span>在表格里选中需要删除的社员，点击批量删除后，弹出提示框
+                        再次确认，确认后删除所选的社员信息
+                    </p>
+                    <p>
+                        <span class="label label-info">导出表格:</span>点击后将<span class="label label-primary">当前页</span>
+                        显示的社员信息生成Excel表格文件并导出。 <span class="label label-warning">注意:</span>由于插件等原因，
+                        只能导出当前页面的社员信息，所以建议在分页栏里选择<span class="label label-primary">显示所有记录</span>
+                        后，再进行导出操作
+                    </p>
+                    <p>
+                        <span class="label label-info">刷新:</span>点击后刷新表格，并回到表格首页
+                    </p>
+                    <p>
+                        <span class="label label-info">分页栏:</span>分页栏中可以选择每页显示的数据量，目前支持一页显示
+                        <span class="label label-primary">[10,25,50,100,所有]</span>条数据
+                    </p>
+                    <br/>
+                    <p>
+                        <span class="label label-info">社员表:</span>社员表中显示正式社员的
+                        <span class="label label-primary">序号</span>
+                        <span class="label label-primary">姓名</span>
+                        <span class="label label-primary">专业班级</span>
+                        <span class="label label-primary">QQ号</span>
+                        <span class="label label-primary">手机号</span>
+                        每一页表格后两栏都含有<span class="label label-primary">操作按钮</span>与
+                        <span class="label label-primary">多选框</span>
+                    </p>
+                    <p>
+                        <span class="label label-info">操作按钮:</span>包含
+                        <span class="label label-primary">修改</span>功能与
+                        <span class="label label-primary">删除</span>功能。
+                        点击<span class="label label-primary">修改</span>后弹出修改框，输入社员的新信息后点击提交，
+                        弹出再次确认后点击确认，即可更新社员信息。点击<span class="label label-primary">删除</span>
+                        后弹出确认框，再次确认是否删除，确认后即可删除选中社员信息
+                    </p>
+                    <hr>
+                    <blockquote>
+                        <h3 id="member_change">
+                            社员转正
+                        </h3>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        社员转正包括<span class="label label-primary">条件搜索栏</span>
+                        <span class="label label-primary">工具栏</span>
+                        <span class="label label-primary">社员表</span>与
+                        <span class="label label-primary">分页栏</span>。
+                        其中<span class="label label-primary">工具栏</span>与
+                        <span class="label label-primary">分页栏</span> 的用法与
+                        <span class="label label-primary">正式社员管理</span>中用法一致
+                    </p>
+                    <p>
+                        <span class="label label-info">条件搜索栏:</span>
+                        搜索功能与<span class="label label-primary">正式社员管理</span>中用法一致，
+                        在原有基础上增加了 <span class="label label-primary">条件搜索</span>，在条件栏中选择要筛选的条件，
+                        点击 <span class="label label-primary">搜索</span>后，会根据搜索框中文本与条件进行搜索。若
+                        <span class="label label-primary">搜索框</span>中内容为空，点击搜索后默认搜索所有社员
+                    </p>
+                    <p>
+                        <span class="label label-info">社员表:</span>该社员表中显示所有从前台提交的社员信息，其中包含
+                        <span class="label label-primary">序号</span>
+                        <span class="label label-primary">姓名</span>
+                        <span class="label label-primary">专业班级</span>
+                        <span class="label label-primary">QQ号</span>
+                        <span class="label label-primary">手机号</span>
+                        <span class="label label-primary">缴费情况</span>
+                        <span class="label label-primary">照片情况</span>
+                        其中 <span class="label label-primary">缴费情况</span>与
+                        <span class="label label-primary">照片情况</span>在前台提交信息时，默认为
+                        <span class="label label-primary">未提交</span>，当社员在招新点完成缴费与提交照片操作后，需在此页面手动点击
+                        按钮，将<span class="label label-primary">未提交</span>的状态更改为<span
+                            class="label label-primary">已提交</span>
+                        后，社员从非社员状态更改为社员状态，并能在<span class="label label-primary">正式社员管理</span>中查询到相关信息
+                    </p>
+                    <hr>
+                    <br/>
+                    <blockquote>
+                        <h2 id="index_manager">
+                            主页管理
+                        </h2>
+                    </blockquote>
+                    <hr>
+                    <blockquote>
+                        <h3 id="start_index">
+                            进入前台主页
+                        </h3>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        选择后进入计算机协会官网主页
+                    </p>
+                    <br/>
+                    <blockquote>
+                        <h3 id="manager_info">
+                            前台信息管理
+                        </h3>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        切换按钮上显示目前社团主页的<span class="label label-primary">招新状态</span>，若状态为
+                        <span class="label label-primary">招新进行中</span>，则社团主页可进行提交社员信息操作。
+                        若状态为<span class="label label-primary">招新已结束</span>，则社员主页无法提交社员信息并进行提示
+                    </p>
+                    <p>
+                        点击<span class="label label-primary">按钮</span>并确认后即可进行招新状态切换。
+                        <span class="label label-warning">注意:</span>请在社团招新完成后及时将招新状态切换为
+                        <span class="label label-primary">招新已结束</span>
+                    </p>
+                    <hr>
+                    <br/>
+                    <blockquote>
+                        <h2 id="data_manager">
+                            数据管理
+                        </h2>
+                    </blockquote>
+                    <hr>
+                    <blockquote>
+                        <h3 id="pay_manager">
+                            经费管理
+                        </h3>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        经费管理中分为<span class="label label-info">支出管理</span>与
+                        <span class="label label-info">经费数据</span>
+                    </p>
+                    <br/>
+                    <p>
+                        <span class="label label-info">支出管理:</span>可将社团平时消耗支出记录到表内
+                    </p>
+                    <p>
+                        功能操作与<span class="label label-primary">正式社员管理</span>中基本一致
+                    </p>
+                    <br/>
+                    <p>
+                        <span class="label label-info">经费数据:</span>显示目前社团可用经费，并可对社团经费进行修改操作
+                    </p>
+                    <p>
+                        <span class="label label-warning">注意:</span>目前经费数据与社团支出表暂未进行数据接入，所以暂时无法做到
+                        添加支出信息后经费自动减少，后续会根据情况进行接入。
+                    </p>
+                    <blockquote>
+                        <h3 id="web_info">
+                            前台信息管理
+                        </h3>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        跳转到<span class="label label-primary">alexa.cn</span>网站，并显示主页的访问量等数据
+                    </p>
+                    <hr>
+                    <br/>
+                    <blockquote>
+                        <h2 id="tools">
+                            小工具
+                        </h2>
+                    </blockquote>
+                    <hr>
+                    <p>
+                        各种小工具的合集
+                    </p>
+                    <p>
+                        <span class="label label-warning">注:</span>目前暂时没想好有什么好的小工具可以加进去..就暂时加了个小游戏进去。
+                        不过加进去的小游戏好像也因为是Flash所以移动端无法使用...总之这里就暂时让我鸽会吧，等什么时候找到好用的工具时再说→_→
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

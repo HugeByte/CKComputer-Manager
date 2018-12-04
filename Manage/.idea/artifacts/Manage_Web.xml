@@ -1,0 +1,25 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Manage:Web">
+    <output-path>$PROJECT_DIR$/out/artifacts/Manage_Web</output-path>
+    <root id="archive" name="Manage_Web.war">
+      <element id="artifact" artifact-name="Manage:Web exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="library" level="application" name="toastr" />
+          <element id="library" level="application" name="sweetalert2.all" />
+          <element id="library" level="application" name="sweetalert2" />
+          <element id="library" level="application" name="tableexport" />
+          <element id="library" level="application" name="xlsx.core" />
+          <element id="library" level="application" name="bootstrap-switch" />
+          <element id="library" level="application" name="bootstrap-select" />
+          <element id="library" level="application" name="defaults-zh_CN" />
+          <element id="library" level="application" name="jquery.validate" />
+          <element id="library" level="application" name="core" />
+          <element id="library" level="application" name="es6-promise" />
+          <element id="library" level="application" name="polyfill" />
+          <element id="library" level="application" name="jquery.nestable" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

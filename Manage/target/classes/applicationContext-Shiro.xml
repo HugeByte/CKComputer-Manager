@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+    <!-- 配置一个shiro框架的过滤器工厂bean，用于创建shiro框架的过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 注入安全管理器对象 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 注入登录页面访问URL -->
+        <property name="loginUrl" value="/index.html"/>
+        <!-- 注入权限不足提供页面访问URL -->
+        <property name="successUrl" value = "/index_1.html"  />
+        <!--注入成功页面访问URL-->
+        <property name="unauthorizedUrl" value="/index_1.html"/><!-- 已经登录,但是用户没有权限的时候才跳转 -->
+        <!-- 配置URL拦截规则 -->
+        <property name="filterChainDefinitions">
+            <value>
+<!--                /css/** = anon
+                /fonts/** = anon
+                /iconfont/** = anon
+                /images/** = anon
+                /js/** = anon
+                /login.html* = anon
+                /register.html* = anon
+                /manager_index.html* = anon
+                /index_v1.html* = anon
+                /user_manager.html = anon
+                /** = authc--><!-- 其他设置用户认证才能使用-->
+                /** = anon
+            </value>
+        </property>
+    </bean>
+
+    <!-- 注册安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"></bean>
+
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+
+    <!-- 自定义Realm -->
+    <bean id="customRealm" class="com.ckc.mag.Realm.UserRealm">
+    <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+    <!-- 配置凭证算法匹配器 -->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+    <!-- Md5算法 -->
+        <property name="hashAlgorithmName" value="Md5"/>
+    </bean>
+
+</beans>

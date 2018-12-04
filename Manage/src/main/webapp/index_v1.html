@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--[if IE]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+
+    <title>主页</title>
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+    <!-- 自定义js -->
+    <script src="js/content.js"></script>
+    <!-- Bootstrap table -->
+    <script src="js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row row-sm text-center">
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item">
+                                <div class="h1 text-info font-thin h1" id="membernumber"></div>
+                                <span class="text-muted text-xs">登记人数</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item bg-info">
+                                <div class="h1 text-fff font-thin h1" id="paynumber"></div>
+                                <span class="text-muted text-xs">正式社员人数</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item bg-primary">
+                                <div class="h1 text-fff font-thin h1" id="recuritstate"></div>
+                                <span class="text-muted text-xs">当前招新状态</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="panel padder-v item">
+                                <div class="font-thin h1" id="outlay">$</div>
+                                <span class="text-muted text-xs">社费额度</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title" style="border-bottom:none;background:#fff;">
+                            <h5>服务器状态</h5>
+                        </div>
+                        <div class="ibox-content" style="border-top:none;">
+                            <div id="flot-line-chart-moving" style="height:217px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="ibox float-e-margins">
+                        <div class="" id="ibox-content">
+                            <div id="vertical-timeline" class="vertical-container light-timeline">
+                                <div class="vertical-timeline-block">
+                                    <div class="vertical-timeline-icon navy-bg">
+                                        <i class="fa fa-upload"></i>
+                                    </div>
+                                    <div class="vertical-timeline-content">
+                                        <h2>后台管理系统上线</h2>
+                                        <p>目前系统处于测试阶段，功能正在完善中，若发现BUG请立刻联系我。
+                                        </p>
+                                        <span class="vertical-date">
+                                    章硕 <br>
+                                    <small>8月20日</small>
+                                </span>
+                                    </div>
+                                </div>
+                                <div class="vertical-timeline-block">
+                                    <div class="vertical-timeline-icon blue-bg">
+                                        <i class="fa fa-file-text"></i>
+                                    </div>
+                                    <div class="vertical-timeline-content">
+                                        <h2>使用须知</h2>
+                                        <p>系统使用详情与介绍在【其他-关于-本站信息】中有详细文档说明，请参考该文档进行使用。</p>
+                                        <a href="#" class="btn btn-sm btn-success"> 查看文档 </a>
+                                        <span class="vertical-date">
+                                    章硕 <br>
+                                    <small>8月20日</small>
+                                </span>
+                                    </div>
+                                </div>
+                                <div class="vertical-timeline-block">
+                                    <div class="vertical-timeline-icon yellow-bg">
+                                        <i class="fa fa-search"></i>
+                                    </div>
+                                    <div class="vertical-timeline-content">
+                                        <h2>寻找开发者中</h2>
+                                        <p>由于个人开发量较大，且部分业务逻辑不完善，故寻找开发者共同参与开发。若有意请与我联系。
+                                        </p>
+                                        <span class="vertical-date">
+                                    章硕 <br>
+                                    <small>9月10日</small>
+                                </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>社员信息</h5>
+                            <div class="ibox-tools">
+                                <a href="user_manager.html" class="btn btn-primary btn-xs">社员管理</a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <table id="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--flotdemo-->
+<script type="text/javascript">
+    $(function () {
+        $('#table').bootstrapTable({
+            url: "/emps",
+            responseHandler: function (res) {
+                //在ajax获取到数据，渲染表格之前，修改数据源
+                var nres = [];
+                nres.push({
+                    total: res.extend.pageInfo.total,
+                    rows: res.extend.pageInfo.list,
+                    pageSize: res.extend.pageInfo.pageSize,
+                });
+                return nres[0];
+            },
+            type: "get",
+            locale: 'zh-CN',
+            striped: true,
+            cache: true,
+            sidePagination: "server",
+            //pageSize: 5,
+            search: false,
+            cardView: false,
+            columns: [
+                {
+                    field: 'name',
+                    title: '姓名'
+                }, {
+                    field: 'major',
+                    title: '专业班级'
+                }, {
+                    field: 'qq',
+                    title: 'QQ'
+                }, {
+                    field: 'phone',
+                    title: '手机号'
+                }]
+        });
+    });
+    $(function() {
+        var container = $("#flot-line-chart-moving");
+        var maximum = container.outerWidth() / 2 || 300;
+        var data = [];
+
+        function getRandomData() {
+            if (data.length) {
+                data = data.slice(1);
+            }
+            while (data.length < maximum) {
+                var previous = data.length ? data[data.length - 1] : 50;
+                var y = previous + Math.random() * 10 - 5;
+                data.push(y < 0 ? 0 : y > 100 ? 100 : y);
+            }
+            var res = [];
+            for (var i = 0; i < data.length; ++i) {
+                res.push([i, data[i]])
+            }
+            return res;
+        }
+        series = [{
+            data: getRandomData(),
+            lines: {
+                fill: true
+            }
+        }];
+        var plot = $.plot(container, series, {
+            grid: {
+
+                color: "#999999",
+                tickColor: "#f7f9fb",
+                borderWidth:0,
+                minBorderMargin: 20,
+                labelMargin: 10,
+                backgroundColor: {
+                    colors: ["#ffffff", "#ffffff"]
+                },
+                margin: {
+                    top: 8,
+                    bottom: 20,
+                    left: 20
+                },
+                markings: function(axes) {
+                    var markings = [];
+                    var xaxis = axes.xaxis;
+                    for (var x = Math.floor(xaxis.min); x < xaxis.max; x += xaxis.tickSize * 2) {
+                        markings.push({
+                            xaxis: {
+                                from: x,
+                                to: x + xaxis.tickSize
+                            },
+                            color: "#fff"
+                        });
+                    }
+                    return markings;
+                }
+            },
+            colors: ["#4fc5ea"],
+            xaxis: {
+                tickFormatter: function() {
+                    return "";
+                }
+            },
+            yaxis: {
+                min: 0,
+                max: 110
+            },
+            legend: {
+                show: true
+            }
+        });
+        setInterval(function updateRandom() {
+            series[0].data = getRandomData();
+            plot.setData(series);
+            plot.draw();
+        }, 40);
+    });
+
+    //加载数据
+    $(document).ready(function (){
+        $.ajax({
+        url: "/all",
+        dataType : "json",
+        type: "get",
+        success: function (data) {
+            $("#membernumber").append(data.extend.pageInfo.total);
+
+        }
+    }),
+            $.ajax({
+                url: "/emps",
+                dataType : "json",
+                type: "get",
+                success: function (data) {
+                   $("#paynumber").append(data.extend.pageInfo.total);
+                }
+            })
+
+            $.ajax({
+                url: "/state",
+                type: "get",
+                success: function (result) {
+                    var states = result.extend.recruit[0].state;
+                    if (states == 0) {
+                        $("#recuritstate").append("已结束");
+                    }
+                    if (states == 1) {
+                        $("#recuritstate").append("招新中");
+                    }
+                }
+            })
+
+        $.ajax({
+            url: "/outlay",
+            type: "get",
+            success: function (result) {
+                var outlaynum = result.extend.outlay[0].outlay;
+                    $("#outlay").append(outlaynum);
+            }
+        })
+    })
+</script>
+</body>
+
+</html>
+
